@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>1XC Game</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game" class="game">
+  <!-- HUD -->
+  <header class="hud">
+    <div class="brand">
+      <div class="logo"><span class="logo-main"><b>1XC</b> GAME</span></div>
+    </div>
+    <div class="meters">
+      <div class="meter">
+        <span class="meter-label">Демо-кредит</span>
+        <span class="meter-value" id="balance">€0.00</span>
+      </div>
+      <div class="meter meter--bet">
+        <span class="meter-label">Ставка</span>
+        <span class="meter-value" id="betValue">€0.20</span>
+      </div>
+      <div class="meter meter--fs" id="fsMeter">
+        <span class="meter-label">Бесплатные спины</span>
+        <span class="meter-value" id="fsLeft">30</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stage -->
+  <main class="stage">
+    <div class="fs-banner" id="fsBanner" hidden>
+      <span class="fs-banner-title">БОНУСНЫЕ ФРИСПИНЫ</span>
+      <span class="fs-banner-mult">Общий множитель <b id="fsMult">×1</b></span>
+      <span class="fs-banner-count" id="fsCount"></span>
+    </div>
+
+    <div class="frame">
+      <div class="frame-glow" aria-hidden="true"></div>
+      <div class="grid" id="grid" role="grid" aria-label="Игровое поле 6 на 5"></div>
+      <div class="lightning" id="lightning" aria-hidden="true"></div>
+    </div>
+
+    <div class="winbar">
+      <span id="winMessage" class="win-message">Нажмите SPIN — у вас 30 бесплатных вращений</span>
+    </div>
+  </main>
+
+  <!-- Controls -->
+  <footer class="controls">
+    <div class="ctrl-left">
+      <button class="icon-btn" id="btnInfo" aria-label="Правила и таблица выплат">i</button>
+      <button class="icon-btn toggle" id="btnAnte" aria-pressed="false" aria-label="Ante Bet — удвоить шанс на бонус, ставка ×1.25">
+        <span class="icon-btn-top">×2</span><span class="icon-btn-sub">шанс</span>
+      </button>
+    </div>
+
+    <div class="ctrl-bet">
+      <button class="round-btn" id="btnBetMinus" aria-label="Уменьшить ставку">−</button>
+      <div class="bet-box">
+        <span class="bet-box-label">Ставка</span>
+        <span class="bet-box-value" id="betValue2">€0.20</span>
+      </div>
+      <button class="round-btn" id="btnBetPlus" aria-label="Увеличить ставку">+</button>
+    </div>
+
+    <button class="spin-btn" id="btnSpin" aria-label="Крутить">
+      <span class="spin-btn-inner"><span class="spin-arrow">SPIN</span></span>
+    </button>
+
+    <div class="ctrl-right">
+      <button class="icon-btn toggle" id="btnTurbo" aria-pressed="false" aria-label="Турбо-режим">
+        <span class="icon-btn-top">⚡</span><span class="icon-btn-sub">турбо</span>
+      </button>
+      <button class="buy-btn" id="btnBuy" aria-label="Купить фриспины">
+        <span class="buy-btn-top">КУПИТЬ</span>
+        <span class="buy-btn-sub">фриспины</span>
+        <span class="buy-btn-price" id="buyPrice">€20.00</span>
+      </button>
+    </div>
+  </footer>
+
+  <p class="legal-strip">
+    Демонстрационная игра на виртуальные кредиты. 18+. Азартные игры могут вызывать зависимость — играйте ответственно.
+  </p>
+</div>
+
+<!-- ІНТРО -->
+<div class="modal" id="introModal" hidden>
+  <div class="modal-card modal-card--intro">
+    <div class="modal-emblem" id="introEmblem"></div>
+    <h1 class="modal-title">30 бесплатных вращений</h1>
+    <p class="modal-text">
+      Познакомьтесь с механикой <b>1XC Game</b> без пополнения. Символы платят в любом месте поля
+      от 8 штук, выигрыши <b>каскадируют</b>, а сферы-множители во фриспинах <b>суммируются</b>
+      в общий множитель.
+    </p>
+    <p class="modal-note">Это демо: вращения на виртуальные кредиты, честный ГСЧ с отдачей ~96.5%. Попасть в бонус можно «вживую» (4+ скаттера ⚡), через <b>×2 шанс</b> или кнопкой «Купить фриспины».</p>
+    <button class="cta" id="introStart">Начать <span class="cta-sub">30 фриспинов</span></button>
+  </div>
+</div>
+
+<!-- ІНФО / ВЫПЛАТЫ -->
+<div class="modal" id="infoModal" hidden>
+  <div class="modal-card modal-card--info">
+    <button class="modal-close" id="infoClose" aria-label="Закрыть">×</button>
+    <h2 class="modal-title">Как играть и таблица выплат</h2>
+    <div class="info-body" id="infoBody"></div>
+    <button class="cta cta--ghost" id="infoOk">Понятно</button>
+  </div>
+</div>
+
+<!-- ФРИСПІНИ: підсумок -->
+<div class="modal" id="fsSummaryModal" hidden>
+  <div class="modal-card modal-card--fs">
+    <div class="modal-emblem modal-emblem--zeus"></div>
+    <h2 class="modal-title">Фриспины завершены</h2>
+    <p class="modal-text">Общий выигрыш за бонус</p>
+    <div class="fs-total" id="fsTotal">€0.00</div>
+    <p class="modal-note" id="fsTotalX"></p>
+    <button class="cta" id="fsSummaryOk">Продолжить</button>
+  </div>
+</div>
+
+<!-- FTD -->
+<div class="modal" id="ftdModal" hidden>
+  <div class="modal-card modal-card--ftd">
+    <div class="ftd-crown" aria-hidden="true"></div>
+    <h2 class="modal-title">Бесплатные вращения закончились</h2>
+    <p class="modal-text ftd-lead">
+      Первое пополнение получает бонус на бонусный счёт. Бонус начисляется на
+      <b>сумму вашего депозита</b> и не зависит от результата демо.
+    </p>
+
+    <div class="ftd-tiers" id="ftdTiers"></div>
+
+    <div class="ftd-summary" id="ftdSummary" hidden>
+      <div class="ftd-row"><span>Депозит</span><b id="ftdDep">€0.00</b></div>
+      <div class="ftd-row ftd-row--bonus"><span>Бонус <em id="ftdPct">+100%</em></span><b id="ftdBonus">€0.00</b></div>
+      <div class="ftd-row ftd-row--total"><span>На счёте</span><b id="ftdTotal">€0.00</b></div>
+      <div class="ftd-wager">Отыгрыш бонуса ×30</div>
+    </div>
+
+    <button class="cta cta--gold" id="ftdCta" disabled>Выберите сумму пополнения</button>
+
+    <p class="ftd-disclaimer" id="ftdDisclaimer">
+      [ЗАГЛУШКА ЮРИДИЧЕСКОГО ТЕКСТА] Здесь будут условия акции: мин. депозит, макс. бонус,
+      требование по отыгрышу (вейджер ×30), список исключённых игр, срок действия, номер лицензии
+      Кюрасао и оператор. 18+. Играйте ответственно.
+    </p>
+    <button class="ftd-restart" id="ftdRestart">← Вернуться в демо</button>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

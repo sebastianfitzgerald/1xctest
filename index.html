@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1xc-test</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css">
+<style>
+  body{ min-height:100dvh; overflow-x:hidden; }
+  .page{
+    min-height:100dvh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center;
+    padding:24px; gap:12px;
+    background:
+      radial-gradient(90% 60% at 50% 0%, rgba(116,52,255,.18), transparent 60%),
+      radial-gradient(70% 50% at 50% 100%, rgba(30,178,223,.10), transparent 60%),
+      var(--bg);
+  }
+  .placeholder{
+    color:var(--muted);
+    font-size:clamp(1.05rem,4.6vw,1.4rem);
+    font-weight:500; letter-spacing:.01em;
+    max-width:22ch; user-select:none;
+  }
+  .placeholder .accent{ color:var(--ink); font-weight:700; }
+
+  /* Попап */
+  .ov{
+    position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:22px;
+    background:var(--overlay); backdrop-filter:blur(4px);
+    opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease;
+  }
+  .ov.show{ opacity:1; visibility:visible; }
+  .pop{
+    position:relative; width:100%; max-width:360px;
+    background:var(--plate); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:30px 22px 24px; text-align:center;
+    transform:translateY(14px) scale(.98); transition:transform .32s cubic-bezier(.2,.8,.25,1);
+  }
+  .ov.show .pop{ transform:none; }
+  .pop::before{
+    content:""; position:absolute; inset:0; border-radius:var(--radius); padding:1px; pointer-events:none;
+    background:linear-gradient(160deg, var(--cyan), transparent 45%, transparent 60%, var(--violet-h));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; opacity:.7;
+  }
+  .pop-emblem{
+    width:66px; height:66px; margin:0 auto 14px; border-radius:50%;
+    background:radial-gradient(circle at 50% 34%, rgba(30,178,223,.5), transparent 60%),
+               conic-gradient(from 200deg, var(--violet-step), var(--cyan) 55%, var(--violet-step));
+    box-shadow:0 0 26px rgba(30,178,223,.4); position:relative;
+  }
+  .pop-emblem::after{ content:"⚡"; position:absolute; inset:0; display:grid; place-content:center; font-size:30px; filter:drop-shadow(0 0 5px rgba(191,228,255,.9)); }
+  .pop .eyebrow{ display:block; margin-bottom:8px; }
+  .pop h1{ font-size:clamp(1.4rem,6vw,1.8rem); margin:0 0 8px; color:var(--ink); }
+  .pop p{ color:var(--muted); font-size:.95rem; margin:0 0 20px; }
+  .pop .btn{ width:100%; }
+  .pop-close{
+    position:absolute; top:10px; right:12px; width:34px; height:34px; border-radius:50%;
+    font-size:22px; line-height:1; color:var(--muted); cursor:pointer;
+    background:rgba(255,255,255,.06); border:1px solid var(--line-soft);
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <span class="eyebrow">1xc-test.com</span>
+    <p class="placeholder">It's just a <span class="accent">1xcasino</span> test site</p>
+  </main>
+
+  <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="popTitle">
+    <div class="pop">
+      <button class="pop-close" id="popClose" aria-label="Close">×</button>
+      <div class="pop-emblem" aria-hidden="true"></div>
+      <span class="eyebrow">1XC Casino</span>
+      <h1 id="popTitle">Try our 1XC Game bonus</h1>
+      <p>Spin the 1XC Game demo — 30 free spins, no deposit.</p>
+      <a class="btn" href="/g1/">Try Now</a>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var ov = document.getElementById('ov');
+      var timer = setTimeout(function(){ ov.classList.add('show'); }, 3000);
+      document.getElementById('popClose').addEventListener('click', function(){ ov.classList.remove('show'); });
+      ov.addEventListener('click', function(e){ if(e.target === ov) ov.classList.remove('show'); });
+    })();
+  </script>
+</body>
+</html>

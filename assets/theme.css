@@ -1,0 +1,130 @@
+/* ============================================================
+   1xc-test.com — общая тема проекта (design system).
+   Источник истины: DESIGN-SYSTEM.md (gen.py v29 + popup.js/pwa.js).
+   Подключается на всех тест-страницах: <link rel="stylesheet" href="/assets/theme.css">
+   ============================================================ */
+
+:root{
+  /* Поверхности (тёмный фиолет) */
+  --bg:#19024B;
+  --surface:#160241;
+  --header:#160241;
+  --footer:#120335;
+  --card:#22075E;
+  --card2:#1A0450;
+  --plate:#1E035E;
+  --field:#2E1B55;
+
+  /* Линии / границы */
+  --line:#3A2170;
+  --line-soft:rgba(255,255,255,.09);
+
+  /* Текст */
+  --text:#FFFFFF;
+  --ink:#F3EEFF;
+  --muted:#BCAEE6;
+
+  /* Акценты / семантика */
+  --green:#7EAC2F;    --good:#7EAC2F;   --gold:#7EAC2F;
+  --green-h:#8ABA38;
+  --green-a:#6F9A29;
+  --cyan:#1EB2DF;
+  --bad:#FF5A6A;
+  --violet-h:#7434FF;
+  --violet-step:#641EFB;
+  --ink-blue:#215583;
+  --star:#FFC107;
+
+  /* Чипы */
+  --chip-blue:#3CA5FF;
+  --chip-green:#10993C;
+  --chip-purple:#A134B1;
+  --chip-sand:#FFDBA8;
+
+  /* Радиусы / отступы / контейнер / тень */
+  --btn-radius:12px;
+  --radius:16px;   --r:16px;
+  --pad:20px;
+  --maxw:1060px;
+  --shadow:0 18px 44px rgba(6,0,30,.55);
+
+  /* Оверлеи / глоу (частые rgba из кода) */
+  --overlay:rgba(6,0,30,.62);
+  --overlay-strong:rgba(6,0,30,.82);
+  --glow-cyan:rgba(30,178,223,.65);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  font-family:Roboto,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+  -webkit-tap-highlight-color:transparent;
+}
+
+h1{ font-size:clamp(1.8rem,6.8vw,2.9rem); margin:.35em 0 .5em; line-height:1.12; }
+h2{ font-size:clamp(1.45rem,5vw,2rem);   margin:.35em 0 .9em; line-height:1.15; }
+a{ color:inherit; text-decoration:none; }
+
+/* Надзаголовок-«глазок» */
+.eyebrow{
+  color:var(--cyan);
+  font-weight:700;
+  font-size:.8rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+/* Кнопка (CTA) — зелёная, крупная тач-зона */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+  min-height:52px; padding:0 26px;
+  border-radius:var(--btn-radius);
+  background:var(--green); color:#0e1a03;
+  font-family:inherit; font-weight:800; font-size:1rem;
+  cursor:pointer; border:0; transition:background .18s, transform .12s;
+}
+.btn:hover{ background:var(--green-h); }
+.btn:active{ background:var(--green-a); transform:translateY(1px); }
+.btn--ghost{ background:transparent; color:var(--ink); border:1px solid var(--line); }
+.btn--ghost:hover{ background:rgba(255,255,255,.05); }
+
+/* Карточка / панель */
+.card{
+  background:var(--plate);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px;
+}
+
+/* Чип (метка/бейдж) */
+.chip{
+  display:inline-flex; align-items:center; gap:.35em;
+  font-size:.72rem; font-weight:800; letter-spacing:.04em;
+  text-transform:uppercase; border-radius:999px; padding:.28em .7em;
+  color:#fff;
+}
+.chip--blue{ background:var(--chip-blue); }
+.chip--green{ background:var(--chip-green); }
+.chip--purple{ background:var(--chip-purple); }
+.chip--sand{ background:var(--chip-sand); color:#2a1046; }
+
+/* Футер */
+.footer{
+  background:var(--footer);
+  border-top:1px solid var(--line);
+  padding-block:30px;
+  font-size:.85rem;
+  color:var(--muted);
+  text-align:center;
+}
+
+/* Доступность */
+:focus-visible{ outline:2px solid var(--cyan); outline-offset:2px; border-radius:8px; }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
