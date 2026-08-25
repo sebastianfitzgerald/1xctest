@@ -232,6 +232,7 @@ body{
   -webkit-mask-composite:xor; mask-composite:exclude; opacity:.6;
 }
 .modal-title{ font-size:22px; font-weight:900; color:var(--ink); margin-bottom:12px; line-height:1.15; }
+.modal-card .eyebrow{ display:block; margin-bottom:8px; }
 .modal-text{ font-size:15px; line-height:1.5; color:var(--text); margin-bottom:12px; }
 .modal-text b{ color:var(--cyan); }
 .modal-note{ font-size:12.5px; line-height:1.45; color:var(--muted); margin-bottom:18px; }
